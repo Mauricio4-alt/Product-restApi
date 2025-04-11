@@ -13,11 +13,11 @@ def getProducts():
         "message":"Product's list",
         "products":products
         })
-@app.route('/products/<name>')
-def getProduct(name):
-    return jsonify ({
-        "message":"Products found",
-        "product":[products[i] for i in range(len(products)) if products[i]["name"] == name ]
-        })
+@app.route('/products/<product_name>')
+def getProduct(product_name):
+    productsFound = [product for product in  products if product['name']==product_name]
+    if (len(productsFound)> 0):
+        return jsonify({"Products":productsFound[0]})
+    return jsonify ({"message":"Product not found"})
 if __name__=="__main__":
     app.run(debug=True,port=4000)
