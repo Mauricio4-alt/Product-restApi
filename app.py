@@ -39,5 +39,16 @@ def editProduct(product_name) :
         productFound[0]['quantity'] = request.json['quantity']
         return jsonify({'message':'data updated succesfull'})
     return jsonify({'error':'item not found'})
+
+@app.route('/products/<string:product_name>',methods=['DELETE'])
+def deleteProduct(product_name):
+    productFound = [product for product in products if product['name']==product_name]
+    if  len(productFound) > 0:
+        products.remove(productFound[0])
+        return jsonify({'message':'product deleted succesfull',
+                        "products":products
+                        })
+    return jsonify({'message':'Error product not found'})
+
 if __name__=="__main__":
     app.run(debug=True,port=4000)
