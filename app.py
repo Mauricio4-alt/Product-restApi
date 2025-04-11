@@ -13,7 +13,7 @@ def getProducts():
         "message":"Product's list",
         "products":products
         })
-@app.route('/products/<product_name>')
+@app.route('/products/<string:product_name>')
 def getProduct(product_name):
     productsFound = [product for product in  products if product['name']==product_name]
     if (len(productsFound)> 0):
@@ -30,13 +30,13 @@ def addProduct():
     products.append(new_product)
     return jsonify({'message':'product Added Succesfull',
                     'products':products})
-@app.route('/products/<product_name>')
+@app.route('/products/<string:product_name>',methods=['PUT'])
 def editProduct(product_name) :
     productFound= [product for product in products if product['name'] == product_name]  
     if (len(productFound)> 0):
-        productFound['name'] = request.json['name']
-        productFound['price'] = request.json['price']
-        productFound['quantity'] = request.json['quantity']
+        productFound[0]['name'] = request.json['name']
+        productFound[0]['price'] = request.json['price']
+        productFound[0]['quantity'] = request.json['quantity']
         return jsonify({'message':'data updated succesfull'})
     return jsonify({'error':'item not found'})
 if __name__=="__main__":
